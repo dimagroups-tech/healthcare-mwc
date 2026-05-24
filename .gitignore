@@ -1,0 +1,15 @@
+# OS files
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.env
+
+# Runtime
+runtime/
+
+# IDE
+.vscode/
+.idea/
