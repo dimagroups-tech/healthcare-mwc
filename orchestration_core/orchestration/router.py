@@ -1,10 +1,9 @@
-# orchestration/router.py
-
-from reasoning.engine import reason
+from orchestration_core.reasoning.engine import process_input
 
 
-def orchestrate(input_payload: dict) -> dict:
+def receive_input(text: str, session: dict) -> dict:
     """
-    Central traffic controller.
+    Router layer.
+    Accepts raw input and forwards it to the reasoning engine.
     """
-    return reason(input_payload)
+    return process_input(text, session)

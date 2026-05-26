@@ -3,13 +3,20 @@ from orchestration_core.reasoning.trace import add_trace
 
 
 def process_input(text: str, session: dict) -> dict:
+    """
+    Core reasoning engine.
+    This function is the ONLY engine entry point.
+    """
+
     session_id = session["session_id"]
 
+    # 🔍 ENGINE INPUT TRACE
     add_trace(session_id, "ENGINE_INPUT", {"text": text})
 
+    # 🚨 POLICY EVALUATION
     decision = emergency_policy(text)
 
-    # 🔒 POLICY TRACE (versioned)
+    # 🔒 POLICY TRACE (versioned & replay-safe)
     add_trace(
         session_id,
         "EMERGENCY_POLICY",
@@ -20,7 +27,7 @@ def process_input(text: str, session: dict) -> dict:
         },
     )
 
-    # ✅ REQUIRED SESSION STATE (for tests + replay)
+    # ✅ REQUIRED SESSION STATE (tests + replay)
     session["emergency"] = decision["is_emergency"]
     session["emergency_details"] = {
         "is_emergency": decision["is_emergency"],
@@ -39,6 +46,7 @@ def process_input(text: str, session: dict) -> dict:
         else "No emergency detected."
     )
 
+    # 📤 ENGINE OUTPUT TRACE
     add_trace(session_id, "ENGINE_OUTPUT", {"message": message})
 
     return {
