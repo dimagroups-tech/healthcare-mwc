@@ -25,7 +25,7 @@ def main():
         result = decide(text)
 
         print("\n🧾 RESULT")
-        print("City        :", result["city_detected"])
+        print("Location    :", result["location_detected"])
         print("Situation   :", result["status"])
 
         if result["status"] == "EMERGENCY":
