@@ -7,8 +7,8 @@ __pycache__/
 venv/
 .env
 
-# Runtime
-#runtime/
+# Runtime logs only
+runtime/logs/
 
 # IDE
 .vscode/
