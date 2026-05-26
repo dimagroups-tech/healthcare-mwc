@@ -1,14 +1,22 @@
 # orchestration_core/reasoning/simple_decision_engine.py
 
-from orchestration_core.reasoning.emergency_policy_rules import classify_emergency
-from orchestration_core.reasoning.india_location_resolver import detect_location
+from orchestration_core.reasoning.location_resolver import resolve_location
+from orchestration_core.reasoning.emergency_rules import classify_situation
 
-def decide(text: str):
-    status = classify_emergency(text)
-    location = detect_location(text)
+
+def decide(user_input: str) -> dict:
+    location = resolve_location(user_input)
+    situation = classify_situation(user_input)
+
+    if situation == "EMERGENCY":
+        action = "🚨 IMMEDIATE medical attention required. Call ambulance / visit ER."
+    elif situation == "NON_EMERGENCY":
+        action = "🩺 Medical attention advised. Visit nearby clinic."
+    else:
+        action = "ℹ️ No urgent medical risk detected."
 
     return {
-        "input": text,
-        "location_detected": location,
-        "status": status
+        "location": location,
+        "situation": situation,
+        "action": action
     }
